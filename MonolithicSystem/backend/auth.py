@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from database import getDb
 from models import User
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 cryptContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauthScheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -25,3 +25,11 @@ def getCurrentUser(db: Session = Depends(getDb), token: str = Depends(oauthSchem
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
     return user
+
+def signup(db: Session, email: str, password: str):
+    hashed_password = getPasswordHash(password)
+    new_user = User(email=email, hashed_password=hashed_password)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user

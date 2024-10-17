@@ -1,10 +1,17 @@
+# schemas.py
 from pydantic import BaseModel
+from typing import Optional
 
-class PostCreate(BaseModel):
+class PostBase(BaseModel):
     title: str
     content: str
-    image_url: str = None
+    image_url: Optional[str] = None
 
-class NotificationCreate(BaseModel):
-    post_id: int
-    user_id: int
+class PostCreate(PostBase):
+    pass
+
+class Post(PostBase):
+    id: int
+    userId: int
+
+    

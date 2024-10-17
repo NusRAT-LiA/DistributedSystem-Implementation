@@ -13,7 +13,6 @@ def createNotification(
     db: Session = Depends(getDb),
     
 ):
-    # Create a new notification
     dbNotification = Notification(
         postId=postId,
         message=message

@@ -22,9 +22,9 @@ def signup(user: UserCreate, db: Session = Depends(getDb)):
     return {"msg": "User created successfully"}
 
 @router.post("/signin", response_model=Token)
-def signin(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(getDb)):
-    dbUser = db.query(User).filter(User.email == form_data.username).first()
-    if not dbUser or not verifyPassword(form_data.password, dbUser.hashedPassword):
+def signin(user: UserCreate, db: Session = Depends(getDb)):
+    dbUser = db.query(User).filter(User.email == user.email).first()
+    if not dbUser or not verifyPassword(user.password, dbUser.hashedPassword):
         raise HTTPException(status_code=400, detail="Invalid credentials")
     accessToken = createAccessToken(data={"sub": dbUser.email})
     return {"accessToken": accessToken, "tokenType": "bearer"}
