@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -28,7 +29,8 @@ class PostCreate(PostBase):
 
 class PostOut(PostBase):
     id: int
-    userId: int
+    # userId: int
+    codeFile: Optional[str] = None
 
     class Config:
         from_attributes = True

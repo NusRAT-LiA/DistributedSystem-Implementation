@@ -1,6 +1,7 @@
 // src/Auth.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; 
 import './App.css';  // Importing external CSS file for styling
 
 const Auth = () => {
@@ -8,6 +9,7 @@ const Auth = () => {
     const [password, setPassword] = useState('');
     const [isSignUp, setIsSignUp] = useState(true);
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,8 +20,10 @@ const Auth = () => {
             if (isSignUp) {
                 setMessage("User created successfully");
             } else {
-                setMessage(`Access Token: ${response.data.accessToken}`);
-            }
+                localStorage.setItem('accessToken', response.data.accessToken);
+                setMessage("Signed in successfully");
+                
+                navigate('/home');            }
         } catch (error) {
             const errorMessage = error.response?.data?.detail || "An error occurred";
             setMessage(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));

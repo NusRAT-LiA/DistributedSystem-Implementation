@@ -15,7 +15,7 @@ class Post(Base):
     __tablename__ = "posts"
     id = Column(Integer, primary_key=True, index=True)
     content = Column(Text, nullable=False)
-    userId = Column(Integer, ForeignKey("users.id"))
+    userId = Column(Integer, ForeignKey("users.id"), nullable=False)
     user = relationship("User", back_populates="posts")
 
     notifications = relationship("Notification", back_populates="post")

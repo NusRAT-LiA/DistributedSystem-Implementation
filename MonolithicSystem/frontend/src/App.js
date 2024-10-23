@@ -1,13 +1,20 @@
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Auth from './Auth';
-
+import HomePage from './Home';
+import NotificationPage from './Notification';
+import Navbar from './Navbar';
 
 function App() {
   return (
-    <div className="App">
-       <Auth />
-    </div>
+    <Router>
+      <Navbar /> {/* Include the Navbar here */}
+      <Routes>
+        <Route path="/" element={<Auth />} />      
+        <Route path="/home" element={<HomePage />} /> 
+        <Route path="/notifications" element={<NotificationPage />} />
+      </Routes>
+    </Router>
   );
 }
 
