@@ -1,8 +1,7 @@
-// src/Auth.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
-import './App.css';  // Importing external CSS file for styling
+import './App.css';  
 
 const Auth = () => {
     const [email, setEmail] = useState('');

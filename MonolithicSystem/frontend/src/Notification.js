@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './App.css'; // Assuming you have a CSS file for styling
+import './App.css'; 
 
 const NotificationPage = () => {
     const [notifications, setNotifications] = useState([]);
     const [message, setMessage] = useState('');
 
-    // Fetch notifications when the component mounts
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
-                const token = localStorage.getItem('accessToken'); // Get token from localStorage
+                const token = localStorage.getItem('accessToken'); 
                 const response = await axios.get('http://localhost:8000/notification', {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -39,7 +38,6 @@ const NotificationPage = () => {
                     {notifications.map((notification) => (
                         <li key={notification.id} className="notification-item">
                             <p>{notification.message}</p>
-                            {/* You can add more fields if needed */}
                         </li>
                     ))}
                 </ul>

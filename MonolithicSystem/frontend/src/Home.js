@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './App.css';  // Assuming you are using the same CSS file for styling
+import './App.css';  
 
 const HomePage = () => {
     const [posts, setPosts] = useState([]);
@@ -8,11 +8,10 @@ const HomePage = () => {
     const [codeFile, setCodeFile] = useState(null);
     const [message, setMessage] = useState('');
 
-    // Fetch the posts when the component mounts
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const token = localStorage.getItem('accessToken');  // Get token from localStorage
+                const token = localStorage.getItem('accessToken');  
                 const response = await axios.get('http://localhost:8000/post', {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -20,7 +19,6 @@ const HomePage = () => {
                 });
                 const postsData = response.data;
 
-                // Backend already provides code snippets if they exist
                 setPosts(postsData);
             } catch (error) {
                 const errorMessage = error.response?.data?.detail || "An error occurred";
@@ -48,9 +46,9 @@ const HomePage = () => {
                 }
             });
             setMessage('Post created successfully');
-            setContent('');  // Clear content input
-            setCodeFile(null);  // Clear file input
-            // setPosts([response.data, ...posts]);  // Add new post to the beginning of the posts list
+            setContent('');  
+            setCodeFile(null);  
+            // setPosts([response.data, ...posts]);  
         } catch (error) {
             const errorMessage = error.response?.data?.detail || "An error occurred";
             setMessage(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
@@ -89,7 +87,7 @@ const HomePage = () => {
                             <p>{post.content}</p>
                             {post.codeFile && post.codeFile.length > 0 && (
                                 <pre className="code-snippet">
-                                    <code>{post.codeFile}</code> {/* Displaying code content */}
+                                    <code>{post.codeFile}</code> 
                                 </pre>
                             )}
                         </div>

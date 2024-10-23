@@ -11,7 +11,7 @@ router = APIRouter()
 def createNotification(
     postId: int,
     message: str,
-    db: Session = Depends(getDb)  # Uncomment this line to use dependency injection
+    db: Session = Depends(getDb)  
 ):
     dbNotification = Notification(
         postId=postId,
@@ -21,12 +21,11 @@ def createNotification(
     db.commit()
     db.refresh(dbNotification)
 
-    # Convert to NotificationOut before returning
     return NotificationOut(
         id=dbNotification.id,
         postId=dbNotification.postId,
         message=dbNotification.message,
-        createdAt=datetime.now(timezone.utc)  # or use the created_at timestamp if available
+        createdAt=datetime.now(timezone.utc)  
     )
 
 @router.get("/", response_model=list[NotificationOut])

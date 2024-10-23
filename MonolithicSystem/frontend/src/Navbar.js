@@ -1,11 +1,10 @@
-// src/Navbar.js
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './App.css';
 
 const Navbar = () => {
-    const location = useLocation(); // Get the current location
+    const location = useLocation(); 
 
     return (
         <nav className="navbar">

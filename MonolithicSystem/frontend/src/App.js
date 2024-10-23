@@ -8,7 +8,7 @@ import Navbar from './Navbar';
 function App() {
   return (
     <Router>
-      <Navbar /> {/* Include the Navbar here */}
+      <Navbar /> 
       <Routes>
         <Route path="/" element={<Auth />} />      
         <Route path="/home" element={<HomePage />} /> 

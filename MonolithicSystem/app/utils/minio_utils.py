@@ -18,23 +18,20 @@ def uploadCodeSnippet(fileData, fileName):
 
 def getCodeSnippet(postId):
     try:
-        # Retrieve the first object in the 'snippets' bucket that starts with the post ID
         objects = minioClient.list_objects("snippets", prefix=f"{postId}_")
-        obj = next(objects, None)  # Get the first object or None if no object is found
+        obj = next(objects, None)  
         
         if obj is not None:
-            # Get the object content
             response = minioClient.get_object("snippets", obj.object_name)
             
-            # Read the object content
-            content = response.read()  # Reads the file content
+            content = response.read()  
             
             # Optionally, decode the content if it's text (e.g., UTF-8)
             # content = content.decode('utf-8')  # Uncomment if you want a string
             
-            return content  # Return the raw content as bytes (or as a string if decoded)
+            return content  
         else:
-            return None  # If no object is found
+            return None  
     except S3Error as e:
         print(f"Error retrieving file: {e}")
         return None
