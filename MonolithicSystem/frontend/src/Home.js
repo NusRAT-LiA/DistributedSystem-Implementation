@@ -1,32 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import './App.css';  
+import './App.css';
 
 const HomePage = () => {
     const [posts, setPosts] = useState([]);
     const [content, setContent] = useState('');
     const [codeFile, setCodeFile] = useState(null);
     const [message, setMessage] = useState('');
+    const fileInputRef = useRef(null);
+    const pollingIntervalRef = useRef(null); 
+
+    const fetchPosts = async () => {
+        try {
+            const token = localStorage.getItem('accessToken');
+            const response = await axios.get('http://localhost:8000/post', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const postsData = response.data.reverse();
+
+            if (JSON.stringify(posts) !== JSON.stringify(postsData)) {
+                setPosts(postsData);
+            }
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail || "An error occurred";
+            setMessage(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
+        }
+    };
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const token = localStorage.getItem('accessToken');  
-                const response = await axios.get('http://localhost:8000/post', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                const postsData = response.data;
-
-                setPosts(postsData);
-            } catch (error) {
-                const errorMessage = error.response?.data?.detail || "An error occurred";
-                setMessage(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
-            }
-        };
-
         fetchPosts();
+
+        pollingIntervalRef.current = setInterval(fetchPosts, 5000);
+
+        return () => clearInterval(pollingIntervalRef.current);
     }, []);
 
     const handleSubmit = async (e) => {
@@ -39,16 +47,18 @@ const HomePage = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/post', formData, {
+            await axios.post('http://localhost:8000/post', formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
                 }
             });
             setMessage('Post created successfully');
-            setContent('');  
-            setCodeFile(null);  
-            // setPosts([response.data, ...posts]);  
+            setContent('');
+            setCodeFile(null);
+            fileInputRef.current.value = '';
+
+            fetchPosts();
         } catch (error) {
             const errorMessage = error.response?.data?.detail || "An error occurred";
             setMessage(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
@@ -70,6 +80,7 @@ const HomePage = () => {
                     />
                     <input
                         type="file"
+                        ref={fileInputRef}
                         onChange={(e) => setCodeFile(e.target.files[0])}
                         className="file-input"
                     />
@@ -87,7 +98,7 @@ const HomePage = () => {
                             <p>{post.content}</p>
                             {post.codeFile && post.codeFile.length > 0 && (
                                 <pre className="code-snippet">
-                                    <code>{post.codeFile}</code> 
+                                    <code>{post.codeFile}</code>
                                 </pre>
                             )}
                         </div>

@@ -12,15 +12,16 @@ from routes.notification import createNotification
 router = APIRouter()
 
 @router.get("/", response_model=list[PostOut])
-def getPosts(db: Session = Depends(getDb)):
-    posts = db.query(Post).all()  # Fetch all posts from the database
+def getPosts(db: Session = Depends(getDb), currentUser: User = Depends(getCurrentUser)):
+    # posts = db.query(Post).all() 
+    posts = db.query(Post).filter(Post.userId != currentUser.id).all()
 
     for post in posts:
-        codeSnippet = getCodeSnippet(post.id)  # Check if any file exists in MinIO for this post ID
+        codeSnippet = getCodeSnippet(post.id)  
         if codeSnippet:
-            post.codeFile = codeSnippet # Assign a default filename based on post ID
+            post.codeFile = codeSnippet 
         else:
-            post.codeFile = None  # If no file exists, set it to None
+            post.codeFile = None  
 
     return posts
 

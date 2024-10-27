@@ -25,7 +25,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #fbb861;
 }
 
 @keyframes App-logo-spin {
@@ -78,14 +78,14 @@
     margin-top: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #4CAF50;
+    background-color: #e79435;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
 }
 
 .auth-button:hover, .switch-button:hover {
-    background-color: #45a049;
+    background-color: #a05607;
 }
 
 .switch-button {
@@ -137,7 +137,7 @@
 
 .post-button {
   padding: 10px 20px;
-  background-color: #28a745;
+  background-color: #e98431;
   color: white;
   border: none;
   border-radius: 5px;
@@ -145,7 +145,7 @@
 }
 
 .post-button:hover {
-  background-color: #218838;
+  background-color: #965108;
 }
 
 .message {
@@ -178,26 +178,67 @@
 }
 
 .notification-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #f8f9fa; 
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notification-container h1 {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: #333333;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
 }
 
 .notification-list {
   list-style-type: none;
   padding: 0;
+  margin: 20px 0;
 }
 
 .notification-item {
-  padding: 10px;
-  border: 1px solid #dee2e6;
-  margin: 5px 0;
-  border-radius: 5px;
-  background-color: #ffffff; 
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.error-message {
-  color: red;
+.notification-item:last-child {
+  border-bottom: none;
 }
+
+.notification-item.unseen {
+  background-color: #f5e3d4;
+  font-weight: bold;
+}
+
+.notification-item.seen {
+  background-color: #ffffff;
+  color: #888;
+}
+
+.notification-item:hover {
+  background-color: #e0e0e0;
+}
+
+.notification-timestamp {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+  text-align: right;
+}
+
 
 
 .navbar {
@@ -233,4 +274,25 @@
 .navbar a.active {
   font-weight: bold; 
   border-bottom: 2px solid #61dafb; 
+}
+
+.logout-button {
+  background-color: #ff8000; 
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.logout-button:hover {
+  background-color: #b35100; 
+}
+
+.logout-button:active {
+  transform: scale(0.98); 
+  background-color: #853500; 
 }

@@ -29,7 +29,7 @@ class PostCreate(PostBase):
 
 class PostOut(PostBase):
     id: int
-    # userId: int
+    userId: int
     codeFile: Optional[str] = None
 
     class Config:
@@ -45,7 +45,6 @@ class NotificationOut(NotificationBase):
     id: int
     postId: int
     createdAt: datetime
+    seen: bool = False
 
-    class Config:
-      from_attributes = True
 
