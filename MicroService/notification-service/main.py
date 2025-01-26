@@ -1,6 +1,6 @@
 import asyncio
 from fastapi import FastAPI
-from routes import auth, post, notification
+from routes import notification
 from database import engine, Base
 from jobs import periodicCleanNotifications
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,7 +29,6 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to my API!"}
-app.include_router(auth.router, prefix="/auth", tags=["Auth"])
-app.include_router(post.router, prefix="/post", tags=["Post"])
+    return {"message": "Welcome to Notification Service!"}
+
 app.include_router(notification.router, prefix="/notification", tags=["Notification"])
